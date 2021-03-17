@@ -19,6 +19,7 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+      
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
@@ -55,7 +56,20 @@
 
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
+                                    @auth
+                                            <h1>Vous etes bien connecte {{Auth::user()->name}}</h1>
+                                            {{-- <a href="{{ url('/home') }}" class="text-dark">Home</a> --}}
+
+                                            <form id="logout-form"action="{{ route('logout') }}" method="POST" >
+                                                @csrf
+                                                <button href="{{ route('logout') }}" >Log out</button>
+                                            </form>
+                                    @else
+                                            <h1>Vous n'etes pas co</h1>
+                                            <a href="{{ route('login') }}" class="text-sm underline ">Login</a>
+                                            <a href="{{ route('register') }}" class="ml-4 text-sm underline ">Register</a>
+
+                                    @endauth
                                 </div>
                             </div>
                         </div>
@@ -68,7 +82,15 @@
 
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
+                                    @foreach ($allUsers as $item)
+                                        <div>
+                                            <h3>User: {{$item->name}}</h3>
+                                            <p>Id: {{$item->id}}</p>
+                                            <p>E-mail: {{$item->email}}</p>
+                                        </div>
+
+                                        
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -94,7 +116,14 @@
 
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline">Forge</a>, <a href="https://vapor.laravel.com" class="underline">Vapor</a>, <a href="https://nova.laravel.com" class="underline">Nova</a>, and <a href="https://envoyer.io" class="underline">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline">Telescope</a>, and more.
+                                    @auth
+                                        <h1>Vos info personel:</h1>
+                                        <p>{{Auth::id()}}</p>
+                                        <p>{{Auth::user()->name}}</p>
+                                        <p>{{Auth::user()->email}}</p>
+                                    @else 
+                                        <h1>Connectez-vous pour voir vos info personel</h1>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
@@ -128,5 +157,6 @@
                 </div>
             </div>
         </div>
+       
     </body>
 </html>
